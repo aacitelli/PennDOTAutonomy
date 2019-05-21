@@ -38,24 +38,28 @@ javascript: (function()
     /* Changing page titles according to what type of page they are so the suggested print title is already correct */
     newWindow.onbeforeprint = function()
     {
+        console.log("titleText: " + titleText);
+
         /* Each type of page to print requires a slightly different URL to visit (presumably due to PennDOT's backend system) */
         /* No good way to deal with authorizations atm but that'll come later as I go for more complete automation */
         switch (titleText)
         {
             case "Project Information":
 
+                console.log("Switch 1");
                 newWindow.document.title = "0";
                 break;
 
             case "Work Order":
 
-                let pageURL = window.location.href.toString();
-                let numberAtEndOfURL = "";
+                console.log("Switch 2");
+                var pageURL = window.location.href.toString();
+                var numberAtEndOfURL = "";
 
                 /* Basically just goes until it hits the equals sign */
-                for (let i = pageURL.length - 1; i >= 0; i--)
+                for (var i = pageURL.length - 1; i >= 0; i--)
                 {
-                    let currentCharacter = pageURL.substring(i, i + 1);
+                    var currentCharacter = pageURL.substring(i, i + 1);
 
                     if (pageURL.substring(i, i + 1) !== "=" )
                         numberAtEndOfURL = currentCharacter + numberAtEndOfURL;
@@ -72,14 +76,36 @@ javascript: (function()
 
             case "Authorization For Contract Work":
 
+                console.log("Switch 3");
                 break;
 
             case "Work Order Explanation":
 
+                console.log("Switch 4");
+                var pageURL = window.location.href.toString();
+                var numberAtEndOfURL = "";
+
+                /* Basically just goes until it hits the equals sign */
+                for (var i = pageURL.length - 1; i >= 0; i--)
+                {
+                    var currentCharacter = pageURL.substring(i, i + 1);
+
+                    if (pageURL.substring(i, i + 1) !== "=" )
+                        numberAtEndOfURL = currentCharacter + numberAtEndOfURL;
+                    else 
+                        break;
+                }
+
+                /* Trimming any leading zeroes */
+                while (numberAtEndOfURL.substring(0, 1) === "0")
+                    numberAtEndOfURL = numberAtEndOfURL.substring(1, numberAtEndOfURL.length);
+
+                newWindow.document.title = numberAtEndOfURL + "e";
                 break;
 
             default:
 
+                console.log("Switch 5");
                 console.error("Didn't recognize title!");
                 return;
         }
