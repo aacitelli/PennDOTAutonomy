@@ -46,13 +46,11 @@ javascript: (function()
         {
             case "Project Information":
 
-                console.log("Switch 1");
                 newWindow.document.title = "0";
                 break;
 
             case "Work Order":
 
-                console.log("Switch 2");
                 var pageURL = window.location.href.toString();
                 var numberAtEndOfURL = "";
 
@@ -76,7 +74,67 @@ javascript: (function()
 
             case "Authorization For Contract Work":
 
-                console.log("Switch 3");
+                console.log("Entered authorization part of switch statement.");
+                
+                /* Getting the element that holds the "Work Order" text */
+                let labelList = document.querySelectorAll(".label");
+                let correctLabelIndex = -1;
+                for (let i = 0; i < labelList.length; i++)
+                {
+                    if (labelList[i].textContent === "Work Order:")
+                    {
+                        console.log("Found the div that contains the Work Order text.");
+                        correctLabelIndex = i;
+                        break;
+                    }
+                }
+
+                if (correctLabelIndex === -1)
+                    throw new Error("Unable to find \"label\" with text 'Work Order'!");
+                
+                /* If it gets here, it successfully found the right text field */
+                /* Getting the number */
+                let parentNode = labelList[correctLabelIndex].parentNode;
+                let correctOtherIndex = -1;
+                for (let i = 0; i < parentNode.childNodes.length; i++)
+                {
+                    if (parentNode.childNodes[i].className === "data")
+                    {
+                        console.log("This div has that data class name: ");
+                        console.log(parentNode.childNodes[i]);
+                        correctOtherIndex = i;
+                        break;
+                    }
+                }
+
+                if (correctLabelIndex === -1)
+                    throw new Error("Unable to find data tag as a child of the parent tag!");
+
+                console.log("Special text content boyo: ");
+                console.log(parentNode.childNodes[correctOtherIndex].childNodes[1]);
+
+                let workOrderNumber = parentNode.childNodes[correctOtherIndex].childNodes[1].textContent;
+
+                /* Extracting the authorization number from the end of the URL */
+                var pageURL = window.location.href.toString();
+                var numberAtEndOfURL = "";
+
+                /* Basically just goes until it hits the equals sign */
+                for (var i = pageURL.length - 1; i >= 0; i--)
+                {
+                    var currentCharacter = pageURL.substring(i, i + 1);
+
+                    if (pageURL.substring(i, i + 1) !== "=")
+                        numberAtEndOfURL = currentCharacter + numberAtEndOfURL;
+                    else 
+                        break;
+                }
+
+                /* Trim leading zeroes */
+                while (workOrderNumber.substring(0, 1) === "0")
+                    workOrderNumber = workOrderNumber.substring(1, workOrderNumber.length);
+
+                newWindow.document.title = workOrderNumber + "z" + numberAtEndOfURL;
                 break;
 
             case "Work Order Explanation":
@@ -105,7 +163,6 @@ javascript: (function()
 
             default:
 
-                console.log("Switch 5");
                 console.error("Didn't recognize title!");
                 return;
         }
