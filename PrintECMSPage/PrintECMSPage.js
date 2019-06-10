@@ -5,7 +5,7 @@ javascript: (function()
 
     document.title = "0";
     
-    /* Each type of page to print requires a slightly different URL to visit (presumably due to PennDOT's backend system) */
+    /* Opens new window with a more printer-friendly copy of that page */
     switch (titleText)
     {
         case "Project Information":
@@ -25,6 +25,7 @@ javascript: (function()
             return;
     }
     
+    /* After print, close the page and go back under certain circumstances */
     newWindow.onafterprint = function(event)
     { 
         newWindow.close();  
@@ -35,7 +36,7 @@ javascript: (function()
         }
     };
     
-    /* Changing page titles according to what type of page they are so the suggested print title is already correct */
+    /* Figures out what each file should be called */
     newWindow.onbeforeprint = function()
     {
         console.log("titleText: " + titleText);
