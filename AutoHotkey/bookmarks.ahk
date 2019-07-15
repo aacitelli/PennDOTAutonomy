@@ -90,8 +90,8 @@
 	; Hitting enter to go to that URL 
 	sendinput {enter}
 	return 
-	
-	Numpad4::
+
+	Left::
 
 	; Send Control-L instruction to select URL bar 
 	sendinput ^l ; 
@@ -107,7 +107,7 @@
 
 	return 
 
-	Numpad6::
+	Right:: 
 
 	; Send Control-L instruction to select URL bar 
 	sendinput ^l ; 
