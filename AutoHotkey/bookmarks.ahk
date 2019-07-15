@@ -90,4 +90,36 @@
 	; Hitting enter to go to that URL 
 	sendinput {enter}
 	return 
+	
+	Numpad4::
+
+	; Send Control-L instruction to select URL bar 
+	sendinput ^l ; 
+
+	; Wait for URL bar to be selected, just to be sure 
+	Sleep, 10 ; 
+
+	; Send command for custom search engine that runs the bookmarklet
+	sendinput leftbookmark ; 
+
+	; Pressing enter to actually send that command 
+	sendinput {enter} ;
+
+	return 
+
+	Numpad6::
+
+	; Send Control-L instruction to select URL bar 
+	sendinput ^l ; 
+
+	; Wait for URL bar to be selected, just to be sure 
+	Sleep, 10 ; 
+
+	; Send command for custom search engine that runs the bookmarklet
+	sendinput rightbookmark ; 
+
+	; Pressing enter to actually send that command 
+	sendinput {enter} ;
+
+	return 
 }
