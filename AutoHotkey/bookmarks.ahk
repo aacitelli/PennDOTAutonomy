@@ -6,9 +6,6 @@
 	; Send Control-L instruction to select URL bar 
 	sendinput ^l ; 
 
-	; Wait for URL bar to be selected, just to be sure 
-	Sleep, 10 ; 
-
 	; Send command for custom search engine that runs the bookmarklet
 	sendinput refreshcss ; 
 
@@ -19,13 +16,13 @@
 
 	Loop
 	{	
-		if WinExist("Save As") or Counter > 120
+		if WinExist("Save As") or Counter > 275
 		{
 			break ; 
 		}
  
 		sendinput {enter} ; 
-		Sleep, 25 ; 
+		Sleep, 10 ; 
 
 		Counter += 1 ; 
 	}
@@ -35,7 +32,6 @@
 
 	; Covers the case where it needs to overwrite something, but has no negative consequences otherwise 
 	WinActivate, Confirm Save As ; 
-	Sleep, 50 ; 
 	sendinput {left}
 	sendinput {enter} 
 	sendinput {left}
@@ -58,12 +54,10 @@
 	\::
 
 	; Getting the number at the end of the URL
-	Sleep, 50 
 	sendinput ^l ; 
-	Sleep, 50
-	sendinput ^a ; 
+	sendinput ^a ;
 	sendinput ^c ; 
-	Sleep, 50 
+	Sleep, 20
 	URLString = %clipboard% ; 
 
 	NumberString := SubStr(URLString, -2) ;
@@ -96,9 +90,6 @@
 	; Send Control-L instruction to select URL bar 
 	sendinput ^l ; 
 
-	; Wait for URL bar to be selected, just to be sure 
-	Sleep, 10 ; 
-
 	; Send command for custom search engine that runs the bookmarklet
 	sendinput leftbookmark ; 
 
@@ -110,10 +101,7 @@
 	Right:: 
 
 	; Send Control-L instruction to select URL bar 
-	sendinput ^l ; 
-
-	; Wait for URL bar to be selected, just to be sure 
-	Sleep, 10 ; 
+	sendinput ^l ;
 
 	; Send command for custom search engine that runs the bookmarklet
 	sendinput rightbookmark ; 
