@@ -77,7 +77,7 @@
 	Send {BackSpace}
 
 	if StrLen(NumberString) >= 3
-		ThreeLongNumber := %NumberString% ; 
+		ThreeLongNumber = %NumberString% ; 
 
 	else if StrLen(NumberString) >= 2
 		ThreeLongNumber = 0%NumberString% ; 
