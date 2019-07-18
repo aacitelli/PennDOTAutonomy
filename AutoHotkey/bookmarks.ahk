@@ -59,7 +59,8 @@ sendinput ^c ;
 Sleep, 25
 
 ; Increment number at end of URL by 1 
-NumberString := SubStr(%clipboard%, -2) ;
+TempString = %clipboard%
+NumberString := SubStr(TempString, -2) ;
 NumberString := NumberString + 1 ; 
 
 ; Declaring and initializing to blank value b/c I don't know how AHK handles scope 
@@ -86,7 +87,9 @@ return
 ; Paste bookmarklet keyword into URL
 Left::
 sendinput ^l ; 
+Sleep, 10
 sendinput leftbookmark ; 
+Sleep, 10
 sendinput {enter} ;
 return 
 
@@ -95,12 +98,14 @@ return
 ; Paste bookmarklet keyword into URL
 Right:: 
 sendinput ^l ;
+Sleep, 10 
 sendinput rightbookmark ; 
+Sleep, 10
 sendinput {enter} ;
 return 
 
 ;----------------------------------------------------------------------------------------------------
 
-RAlt::
+Delete::
 BreakLoop = 1
 return
