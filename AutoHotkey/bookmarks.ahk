@@ -1,114 +1,106 @@
-#IfWinActive ahk_class Chrome_WidgetWin_1
-{
-	; TL;DR - Triggers the bookmarklet via a keypress
-	RShift::
+RShift::
 
-	; Send Control-L instruction to select URL bar 
-	sendinput ^l ; 
+; Starting up the print bookmark
+sendinput ^l ; 
+sendinput refreshcss ;
+sendinput {enter} ;
 
-	; Send command for custom search engine that runs the bookmarklet
-	sendinput refreshcss ; 
-
-	; Pressing enter to actually send that command 
-	sendinput {enter} ;
-
-	Counter := 0 
-
-	Loop
-	{	
-		if WinExist("Save As") or Counter > 55
-		{
-			break ; 
-		}
- 
-		sendinput {enter} ; 
-		Sleep, 50 ; 
-
-		Counter += 1 ; 
+; Pressing enter until "Save As" window pops up
+Loop, 150
+{	
+	; A different keybind allows me to break out of this loop incase it stalls here 
+	if BreakLoop = 1 
+	{
+		BreakLoop = 0
+		break 
 	}
 
-	WinActivate, Save As  
-	sendinput {enter} ;
+	; If the save as window has successfully opened, press enter to save it and get out of this loop 
+	else if WinActive("Save As")
+	{ 
+		sendinput {enter} 
+		break
+	}
 
-	; Covers the case where it needs to overwrite something, but has no negative consequences otherwise 
-	WinActivate, Confirm Save As ; 
-	sendinput {left}
-	sendinput {enter} 
-	sendinput {left}
-	sendinput {enter} 
-	return
-
-	;----------------------------------------------------------------------------------------------------
-
-
-	; TL;DR - Clicks w/ the mouse button, but allows you to hit a key to do so 
-	RCtrl::
-
-	MouseClick Left 
-
-	return
-
-	;----------------------------------------------------------------------------------------------------
-
-	; TL;DR - Increments the WO count by 1 (need to manually skip gaps) 
-	\::
-
-	; Getting the number at the end of the URL
-	sendinput ^l ; 
-	sendinput ^a ;
-	sendinput ^c ; 
-	Sleep, 20
-	URLString = %clipboard% ; 
-
-	NumberString := SubStr(URLString, -2) ;
-
-	; Incrementing that number by 1
-	NumberString := NumberString + 1 ; 
-
-	Send {Right}
-	Send {BackSpace}
-	Send {BackSpace}
-	Send {BackSpace}
-
-	if StrLen(NumberString) >= 3
-		ThreeLongNumber = %NumberString% ; 
-
-	else if StrLen(NumberString) >= 2
-		ThreeLongNumber = 0%NumberString% ; 
-
+	; Otherwise, press enter to potentially open the save as menu and wait a little bit 
 	else 
-		ThreeLongNumber = 00%NumberString% ;
-
-	Send %ThreeLongNumber% ;  
-	Sleep, 20
-
-	; Hitting enter to go to that URL 
-	sendinput {enter}
-	return 
-
-	Left::
-
-	; Send Control-L instruction to select URL bar 
-	sendinput ^l ; 
-
-	; Send command for custom search engine that runs the bookmarklet
-	sendinput leftbookmark ; 
-
-	; Pressing enter to actually send that command 
-	sendinput {enter} ;
-
-	return 
-
-	Right:: 
-
-	; Send Control-L instruction to select URL bar 
-	sendinput ^l ;
-
-	; Send command for custom search engine that runs the bookmarklet
-	sendinput rightbookmark ; 
-
-	; Pressing enter to actually send that command 
-	sendinput {enter} ;
-
-	return 
+	{
+		sendinput {enter} 
+		Sleep, 20
+	}
 }
+
+; Always overwrites changes
+sendinput {left}
+sendinput {enter}
+sendinput {left}
+sendinput {enter}
+
+return
+
+;----------------------------------------------------------------------------------------------------
+
+; Simple keypress macro 
+RCtrl::
+MouseClick Left
+return
+
+;----------------------------------------------------------------------------------------------------
+
+; TL;DR - Increments the WO count by 1 (need to manually skip gaps) 
+\::
+
+; Getting the number at the end of the URL
+sendinput ^l ; 
+Sleep, 10 ; 
+sendinput ^a ;
+Sleep, 10 
+sendinput ^c ; 
+Sleep, 25
+
+; Increment number at end of URL by 1 
+NumberString := SubStr(%clipboard%, -2) ;
+NumberString := NumberString + 1 ; 
+
+; Declaring and initializing to blank value b/c I don't know how AHK handles scope 
+ThreeLongNumber := "" 
+StringLength := StrLen(NumberString)
+if StrLen(NumberString) == 1
+	ThreeLongNumber = 00%NumberString%
+else if (StrLen(NumberString)) == 2
+	ThreeLongNumber = 0%NumberString%
+else 
+	ThreeLongNumber = %NumberString%
+
+; Put this new number at end of URL
+Send {Right} ; Moves cursor to end of URL
+Send {BackSpace} ; Gets rid of the three numbers at the end, whatever they are
+Send {BackSpace}
+Send {BackSpace}
+Send %ThreeLongNumber% ; 
+sendinput {enter}
+return 
+
+;----------------------------------------------------------------------------------------------------
+
+; Paste bookmarklet keyword into URL
+Left::
+sendinput ^l ; 
+sendinput leftbookmark ; 
+sendinput {enter} ;
+return 
+
+;----------------------------------------------------------------------------------------------------
+
+; Paste bookmarklet keyword into URL
+Right:: 
+sendinput ^l ;
+sendinput rightbookmark ; 
+sendinput {enter} ;
+return 
+
+;----------------------------------------------------------------------------------------------------
+
+RAlt::
+BreakLoop = 1
+return
