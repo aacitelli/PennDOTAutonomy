@@ -1,8 +1,11 @@
 RShift::
+BreakLoop = 0
 
 ; Starting up the print bookmark
 sendinput ^l ; 
+Sleep, 20 
 sendinput refreshcss ;
+Sleep, 20
 sendinput {enter} ;
 
 ; Pressing enter until "Save As" window pops up
@@ -42,6 +45,7 @@ return
 
 ; Simple keypress macro 
 RCtrl::
+BreakLoop = 0
 MouseClick Left
 return
 
@@ -49,6 +53,7 @@ return
 
 ; TL;DR - Increments the WO count by 1 (need to manually skip gaps) 
 \::
+BreakLoop = 0 
 
 ; Getting the number at the end of the URL
 sendinput ^l ; 
@@ -86,10 +91,11 @@ return
 
 ; Paste bookmarklet keyword into URL
 Left::
+BreakLoop = 0 
 sendinput ^l ; 
-Sleep, 10
+Sleep, 20
 sendinput leftbookmark ; 
-Sleep, 10
+Sleep, 20
 sendinput {enter} ;
 return 
 
@@ -97,10 +103,11 @@ return
 
 ; Paste bookmarklet keyword into URL
 Right:: 
+BreakLoop = 0 
 sendinput ^l ;
-Sleep, 10 
+Sleep, 20 
 sendinput rightbookmark ; 
-Sleep, 10
+Sleep, 20
 sendinput {enter} ;
 return 
 
