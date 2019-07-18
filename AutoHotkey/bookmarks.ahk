@@ -16,13 +16,13 @@
 
 	Loop
 	{	
-		if WinExist("Save As") or Counter > 275
+		if WinExist("Save As") or Counter > 55
 		{
 			break ; 
 		}
  
 		sendinput {enter} ; 
-		Sleep, 10 ; 
+		Sleep, 50 ; 
 
 		Counter += 1 ; 
 	}
@@ -80,6 +80,7 @@
 		ThreeLongNumber = 00%NumberString% ;
 
 	Send %ThreeLongNumber% ;  
+	Sleep, 20
 
 	; Hitting enter to go to that URL 
 	sendinput {enter}
