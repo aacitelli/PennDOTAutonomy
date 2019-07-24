@@ -2,6 +2,10 @@ javascript: (function()
 {
     var titleText = document.querySelectorAll(".Title")[2].textContent;
     var newWindow;
+    newWindow.addEventListener("DOMContentLoaded", () =>
+    {
+        newWindow.print();
+    });
 
     /* Have to set up titling and printing based on what type of page it is */
     switch (titleText) 
@@ -140,9 +144,4 @@ javascript: (function()
                 break;
         }
     };
-
-    newWindow.addEventListener("DOMContentLoaded", () =>
-    {
-        newWindow.print();
-    });
 })();
