@@ -2,11 +2,7 @@ javascript: (function()
 {
     var titleText = document.querySelectorAll(".Title")[2].textContent;
     var newWindow;
-    newWindow.addEventListener("DOMContentLoaded", () =>
-    {
-        newWindow.print();
-    });
-
+    
     /* Have to set up titling and printing based on what type of page it is */
     switch (titleText) 
     {
@@ -26,6 +22,11 @@ javascript: (function()
             newWindow = window.open("PDTagServlet?action=printerFriendly&jspName=WEB-INF/jsp/PWOmanageExplanation.jsp", "Print", "600", "800");
             break;
     }
+
+    newWindow.addEventListener("DOMContentLoaded", () =>
+    {
+        newWindow.print();
+    });
     
     /* For certain pages, goes back a page post-print */
     newWindow.onafterprint = function(event) 
