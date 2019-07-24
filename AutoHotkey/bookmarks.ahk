@@ -4,7 +4,7 @@ BreakLoop = 0
 ; Starting up the print bookmark
 sendinput ^l ; 
 Sleep, 20 
-sendinput refreshcss ;
+sendinput aaa ;
 Sleep, 20
 sendinput {enter} ;
 
@@ -94,7 +94,7 @@ Left::
 BreakLoop = 0 
 sendinput ^l ; 
 Sleep, 20
-sendinput leftbookmark ; 
+sendinput left ; 
 Sleep, 20
 sendinput {enter} ;
 return 
@@ -106,7 +106,7 @@ Right::
 BreakLoop = 0 
 sendinput ^l ;
 Sleep, 20 
-sendinput rightbookmark ; 
+sendinput right ; 
 Sleep, 20
 sendinput {enter} ;
 return 
